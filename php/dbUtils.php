@@ -22,4 +22,12 @@ function addUser($uname, $email, $password) {
 	$stmt->execute();
 
 }
+
+function encrypt($pass) {
+	$salt = "RTui%b*B29";
+	$saltedPass = $salt.$pass;
+	$token = hash('ripemd128', $saltedPass);
+	return $token;
+}
+
 ?>

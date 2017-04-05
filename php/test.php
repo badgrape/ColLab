@@ -11,11 +11,14 @@ $reqRaw = file_get_contents('php://input');
 // Convert Request JSON data to associative Object
 $reqJson = json_decode($reqRaw, true);
 
+$username = htmlentities($reqJson['username']);
+$email = htmlentities($reqJson['email']);
+$password = htmlentities($reqJson['password']);
 // Insert new user
 
 try {
 	require_once("dbConnect.php");
-	addUser($reqJson['username'], $reqJson['email'], $reqJson['password']);
+	addUser($username, $email, encrypt($password));
 }
 
 catch(PDOException $e) {echo $e->getMessage();}
