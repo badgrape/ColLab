@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript" src="/js/jquery-3.2.0.min.js"></script>
+<script type="text/javascript">
+
+	var peopleJSON = '[{"name":"Jim", "email":"germ@badgrape.net"},{"name":"Emily", "email":"brain@badgrape.net"},{"name":"Jake", "email":"dirtyflash@badgrape.net"}]';
+
+	// Convert JSON string to JavaScript Object
+	var peopleJS = $.parseJSON(peopleJSON);
+	console.log(peopleJS);      // Dump all data of the Object in the console
+	$(function() {
+		$("#test").text(peopleJSON);
+	});
+
+$(function(){
+    $.post("test.php",
+    {
+        kid: "Jake",
+        hamster: "Dirtyflash"
+    },
+    function(data, status){
+        alert("Data: " + data + "\nStatus: " + status);
+    });
+});
+</script>
+</head>
+<body>
+
+	<p id="test"><script>document.write(peopleJSON);</script></p>
+
+<!--<form method="post">
+	<input type="text" id="username" name="username" placeholder="Username" />
+	<input type="email" id="email" name="email" placeholder="Email" />
+	<input type="password" id="password" name="password" placeholder="Password" />
+	<input type="submit" />
+</form>-->
+
+
+</body>
+</html>
