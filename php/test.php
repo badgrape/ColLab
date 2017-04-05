@@ -1,36 +1,37 @@
 <?php
 
-require_once("Dbase.php");
+require("dbUtils.php");
 include("debug.php");
 
-//JSON string
-$peopleJSON = '[
-	{"name":"Jim", "email":"germ@badgrape.net"},
-	{"name":"Emily", "email":"brain@badgrape.net"},
-	{"name":"Jake", "email":"dirtyflash@badgrape.net"}
-]';
+// Prepare a response to be sent when the page is requested
 
-echo $peopleJSON;
+// Retrieve the Request Data
+$reqRaw = file_get_contents('php://input');
 
-// Convert JSON string to array
-$peoplePHP = json_decode($peopleJSON, true);
+// Convert Request JSON data to associative Object
+$reqJson = json_decode($reqRaw, true);
 
-printObject($peoplePHP);
+// Insert new user
+
+try {
+	require_once("dbConnect.php");
+	addUser($reqJson['username'], $reqJson['email'], $reqJson['password']);
+}
+
+catch(PDOException $e) {echo $e->getMessage();}
 
 // Query database
+
 try {
-	$query = new Dbase("badgrape", "jim", "s3ns3nn0s3n");	
-	$result = $query->getUsers();
+	$result = getUsers();
 }
 
-catch(PDOException $e) {
-	echo $e->getMessage();
-}
-
-printObject($result);
+catch(PDOException $e) {echo $e->getMessage();}
 
 // Convert dbase results to JSON string
-$peopleJaySun = json_encode($result);
-echo $peopleJaySun;
+$users = json_encode($result);
+
+//Send JSON string back to requesting page
+echo $users;
 
 ?>
