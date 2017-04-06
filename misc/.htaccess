@@ -1,0 +1,5 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule ^([^/\.]+)/?$ index.php?page=$1
+RewriteRule ^forum/([^/\.]+)/?$ index.php?forum=$1 [L]
+</IfModule>
