@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-<script type="text/javascript" src="../js/jquery-3.2.0.min.js"></script>
-<script type="text/javascript">
-
 function talkToServer() {
 
 	// Ajax with jQuery to talk to the server
@@ -12,17 +6,19 @@ function talkToServer() {
 	var username = $("#username").val();
 	var email = $("#email").val();
 	var password = $("#password").val();
+	var submit = $("#submit").val();
 
 	// String to create JSON object
 	var text =  '{' +
 				   '"username":"' + username + '",' +
 				   '"email":"' + email + '",' +
-				   '"password":"' + password + '"' +
+				   '"password":"' + password + '",' +
+				   '"submit":"' + submit + '"' +
 				'}';
 
 	var jsonData = JSON.parse(text);
 
-	$.post("test.php", JSON.stringify(jsonData),
+	$.post("php/response.php", JSON.stringify(jsonData),
 		function(data, status){
 			$("#usersJson").html(data);
 
@@ -36,20 +32,3 @@ function talkToServer() {
 	});
 
 	}
-
-</script>
-</head>
-<body>
-
-<form action="javascript:talkToServer()" method="post">
-	<input type="text" id="username" name="username" placeholder="Username" />
-	<input type="email" id="email" name="email" placeholder="Email" />
-	<input type="password" id="password" name="password" placeholder="Password" />
-	<input type="submit" />
-</form>
-
-<p id="usersJson"></p>
-<div id="users"></div>
-
-</body>
-</html>
