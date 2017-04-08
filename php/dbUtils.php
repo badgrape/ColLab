@@ -1,14 +1,5 @@
 <?php
 
-// for debugging only
-function getUsers() {
-	GLOBAL $pdo;
-	$sql = "select fname, lname, email from users";
-	$stmt = $pdo->query($sql);
-	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-	return $result;
-}
-
 function getSalt($string, $max) {
 	if (strlen($string) == $max) {
 		return $string;

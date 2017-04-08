@@ -1,6 +1,6 @@
 <?php
 
-$db = "badgrape";
+$db = "collab";
 $user = "jim";
 $pass = "s3ns3nn0s3n";
 
