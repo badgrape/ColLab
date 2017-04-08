@@ -1,33 +1,49 @@
 <?php
 
+// for debugging only
 function getUsers() {
 	GLOBAL $pdo;
-	$sql = "select name, email from users";
+	$sql = "select fname, lname, email from users";
 	$stmt = $pdo->query($sql);
 	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	return $result;
 }
 
-function addUser($uname, $email, $password) {
-	GLOBAL $pdo;
+function getSalt($string, $max) {
+	if (strlen($string) == $max) {
+		return $string;
+	}
 
-	$sql = "INSERT INTO users (name, email, password)
-	VALUES (:name, :email, :password)";
-	$stmt = $pdo->prepare($sql);
-
-	$stmt->bindParam(':name', $uname);
-	$stmt->bindParam(':email', $email);
-	$stmt->bindParam(':password', $password);
-
-	$stmt->execute();
-
+	else {
+		$string .= chr(rand(0, 127));
+		return getSalt($string, $max);
+	}
 }
 
-function encrypt($pass) {
-	$salt = "RTui%b*B29";
-	$saltedPass = $salt.$pass;
+function encrypt($salt, $pass) {
+	$saltedPass = $salt . $pass;
 	$token = hash('ripemd128', $saltedPass);
 	return $token;
+}
+
+function addUser($userid, $fname, $lname, $email, $password) {
+	GLOBAL $pdo;
+
+	$salt = getSalt("", 12);
+	$hash = encrypt($salt, $password);
+
+	$sql = "INSERT INTO users (userid, fname, lname, email, salt, hash)
+		VALUES (:userid, :fname, :lname, :email, :salt, :hash)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':userid', $userid);
+	$stmt->bindParam(':fname', $fname);
+	$stmt->bindParam(':lname', $lname);
+	$stmt->bindParam(':email', $email);
+	$stmt->bindParam(':salt', $salt);
+	$stmt->bindParam(':hash', $hash);
+
+	$stmt->execute();
 }
 
 ?>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html> 
+<head>
+  <title>CoLab Teacher Interface</title>
+	<!-- 	Web project mockup
+				Jim Morris -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+  <link rel="stylesheet" type="text/css" href="css/coLab.css" />
+  <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/coLab.js"></script>
+	
+</head>
+<body>
+<div class="container">
+<div id="userStatus">
+	<p>Djohara Benyamina&nbsp;&nbsp;<a href="#">Account</a> | <a href="#">Log out</a></p>
+</div>
+<header>
+	<h1>CoLab!</hl>
+</header>
+<nav class="navbar navbar-inverse">
+  <ul class="nav navbar-nav">
+    <li class="active"><a href="index.htm">Home</a></li>
+    <li><a href="#">Classes</a></li>
+    <li><a href="#">Assignments</a></li>
+    <li><a href="#">Discussion</a></li>
+  </ul>
+</nav>	
+	<div class="row">
+		<div class="col-sm-9">
+		<div id="fileBox">
+			<div id="fileinfo">
+				<div id="fileName">File: Project.txt</div>
+				<div id="fileOps">
+					View latest contributions by:
+					<button type="button" class="btn btn-sm emily">Emily</button>
+					<button type="button" class="btn btn-sm jim">Jim</button>
+					<button type="button" class="btn btn-sm roger">Roger</button>
+					<button type="button" class="btn btn-default btn-sm clear">Clear</button>
+				</div>
+			</div>
+			<div id="fileView">
+				<p class="roger">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla dictum risus quis urna accumsan bibendum. Ut quis nisl ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec sit amet dictum metus. Sed a faucibus dolor. Proin in nisi euismod, facilisis elit sit amet, pulvinar ipsum. Sed eleifend cursus dolor, id pellentesque sem dictum eget. Fusce ultrices quam vel lacus eleifend, sed venenatis tortor congue. Curabitur non felis sed lacus maximus faucibus vitae vel quam.</p> 
+				<p class="emily">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut dapibus suscipit erat, ut luctus magna dapibus vel. Morbi placerat massa nec laoreet accumsan. Nullam sollicitudin sed massa non aliquam. Maecenas dignissim ultricies tortor eu vehicula. Nunc luctus sodales nibh tempor viverra. Pellentesque tempor convallis urna, blandit lacinia orci commodo a. Sed convallis bibendum massa, at ullamcorper dolor mollis eu. Vivamus euismod eget ex quis faucibus. Fusce non vestibulum turpis, et ornare magna. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed pharetra massa consequat, elementum sapien fringilla, pellentesque velit. Nullam metus nunc, posuere ac ex sit amet, hendrerit porta dolor. Praesent hendrerit sem mauris, quis vehicula felis maximus eu. Etiam tortor justo, malesuada non magna quis, commodo commodo nisl. Aliquam eu ante ut mauris consectetur tristique vel et diam.</p> 
+				<p class="roger">Sed dignissim libero vitae justo ultricies, eget faucibus sem aliquet. Praesent tempor magna non efficitur venenatis. Curabitur erat lectus, venenatis in ornare et, iaculis sit amet felis. Sed auctor ipsum a iaculis interdum. Ut a tempus felis. Aliquam ut mi velit. Aliquam erat volutpat. Etiam vel sodales mi. Aenean et gravida ligula.</p> 
+				<p class="jim">Aliquam tristique tempor neque nec eleifend. Sed semper laoreet tortor, ac pulvinar sem commodo vitae. Sed vitae orci sit amet urna fermentum viverra id ut felis. Cras hendrerit efficitur lacus, ac vehicula augue dictum in. Ut gravida sed arcu non gravida. Nulla cursus, risus vel interdum mollis, arcu velit rutrum odio, a imperdiet mi purus in augue. Nulla tellus nunc, pharetra id scelerisque at, pulvinar eget elit. Aenean eu ligula orci. Nulla cursus sit amet elit ac ultrices. Morbi consequat nulla nec lacinia molestie. Duis non arcu tortor. Aliquam quam dolor, convallis eget purus eget, lobortis viverra lacus. Donec posuere neque ac quam posuere, in rhoncus tellus fringilla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. In quis lobortis sem.</p> 
+				<p class="emily">Pellentesque sagittis vel lorem eu vehicula. Fusce efficitur ultricies dui, sollicitudin tincidunt tortor ultrices vel. Suspendisse magna tellus, fermentum sit amet magna vitae, rhoncus convallis elit. Fusce laoreet blandit urna nec vehicula. Suspendisse a augue ex. Praesent pretium pharetra orci et dapibus. Pellentesque tincidunt, nunc vel vehicula lacinia, orci dolor ultrices justo, non euismod velit libero sit amet nisl. Curabitur quam nisl, interdum eget vehicula ac, luctus eu nulla. Nam tincidunt leo risus, nec convallis mi luctus nec. Donec laoreet nunc sapien, vel imperdiet nunc suscipit eget. Praesent convallis lacus quis enim porta dignissim. Nunc tincidunt nisi sit amet libero ultrices, nec facilisis purus vulputate. Sed iaculis tortor vel tellus accumsan iaculis. Fusce commodo nec orci quis vehicula. Curabitur sagittis arcu quis tortor feugiat, eget pulvinar nisi tempor. Nulla facilisi.</p> 
+				<p class="jim">Nullam sit amet elementum dui. Nulla elit tellus, viverra eu nunc fringilla, interdum fringilla nibh. Proin rutrum, purus eu varius convallis, sem purus condimentum tellus, et iaculis magna nisl sed nibh. Phasellus id lorem vitae neque tincidunt vestibulum et sit amet lectus. Cras sagittis luctus elit, eu semper odio. Nunc eget interdum ex. Donec vel accumsan tortor.</p> 
+		</div>		
+		</div>
+		</div>
+		<div class="col-sm-3">
+			<h3>Statistics</h3>
+			<ul class="list-group">
+				<li class="list-group-item"><strong>4</strong> classes</li>
+			  <li class="list-group-item"><strong>99</strong> students</li>
+			  <li class="list-group-item"><strong>5</strong> assignments</li>
+			  <li class="list-group-item"><strong>8</strong> discussion topics</li>
+			</ul>
+			<div class="list-group">
+			<h3>Resources</h3>
+				<a href="#" class="list-group-item">Anything but Wikipedia</a>
+				<a href="#" class="list-group-item">ColorHexa</a>
+				<a href="#" class="list-group-item">GitHub</a>
+				<a href="#" class="list-group-item">OpenClassroom</a>
+				<a href="#" class="list-group-item">Purdue Online Writing Lab</a> 
+				<a href="#" class="list-group-item">Politics and the English Language</a> 
+				<a href="#" class="list-group-item">Stack Overflow</a> 
+				<a href="#" class="list-group-item">Stanford Encyclopedia of Philosophy</a> 
+				<a href="#" class="list-group-item">W3Schools</a>
+			</div>
+		</div>
+		</div>	
+<footer>
+	<p>This website is made of 100% recycled electrons. Share and share alike.<p>
+</footer>
+</div>
+</body>
+</html>
