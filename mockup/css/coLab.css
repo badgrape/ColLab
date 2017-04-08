@@ -1,0 +1,93 @@
+/* Web project mockup
+ * Jim Morris */
+
+body {
+	font-family: Calibri, Arial, sans-serif;
+	font-size: 11pt;
+}
+
+header, footer {
+	background-color: #006655;
+	color: #ffffff;
+	border-radius: 5px;
+	padding: 3px 15px;
+	margin: 3px 0px 3px;
+}
+
+header {
+	height: 80px;
+	line-height: 80px;
+}
+
+footer {
+	height: 50px;
+	line-height: 50px;
+}
+
+header h1 {
+	font-weight: 900;
+}
+
+#userStatus {
+	height: 35px;
+	line-height: 35px;
+	background-color: #000000;
+	border-radius: 5px;
+	color: #ffffff;
+	text-align: right;
+	padding: 0px 15px;
+}
+
+#fileBox {
+	border: solid #009980 1px;
+	border-radius: 3px;
+	background-color: #f7f7f7;
+	margin-bottom: 5px;
+	font-family: monospace;
+	font-size: 10pt;
+	color: #646464;
+}
+
+#fileView {
+	clear: left;
+	padding: 5px;
+}
+
+#fileName {
+	float: left;
+}
+
+#fileOps {
+	float: right;
+}
+
+#fileinfo {
+	border-bottom: solid #009980 1px;
+	padding: 5px;
+	height: 50px;
+	line-height: 50px;
+}
+
+p.deleted {
+	display: none;
+}
+
+button.emily {
+	background-color: #2727ff;
+	color: #ffffff;
+}
+
+button.jim {
+	background-color: #eb9800;
+	color: #ffffff;
+}
+
+
+button.roger {
+	background-color: #006c00;
+	color: #ffffff;
+}
+
+p.form-text {
+	margin-top: 5px;
+}
