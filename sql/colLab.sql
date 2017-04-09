@@ -19,10 +19,12 @@ create table users (
 	userid integer(5) not null auto_increment,
 	fname varchar(32) not null,
 	lname varchar(32) not null,
+	role char(7) not null,
 	email varchar(64) not null,
 	salt varchar(16) not null,
 	hash varchar(256) not null,
-	primary key (userid)
+	primary key (userid),
+	check (role in ('teacher', 'student'))
 );
 
 -- Courses ( courseid(integer), coursename(varchar), discipline(varchar), teacher(fk: userid) );
@@ -49,7 +51,8 @@ create table registration (
 
 -- Assignments ( assignid(integer), instructions(varchar), courseid(fk: courseid) );
 create table assignments (
-	assignid integer(5) not null,
+	assignid integer(5) not null auto_increment,
+	assigntitle varchar(64) not null,
 	instructions text not null,
 	course integer(5) not null,
 	primary key (assignid),
@@ -59,7 +62,7 @@ create table assignments (
 
 -- Projects ( projectid(integer), assign(fk: assignid), projecttitle(varchar) );
 create table projects (
-	projectid integer(5) not null,
+	projectid integer(5) not null auto_increment,
 	assign integer(5) not null,
 	projecttitle varchar(64) not null,
 	primary key (projectid),
@@ -119,7 +122,7 @@ create table files (
 
 -- DiscussTopics ( topicid(int), project(fk: projectid), student(fk: userid), topictitle(varchar), topictext(text), dateposted(timestamp) );
 create table discusstopics (
-	topicid integer(5) not null,
+	topicid integer(5) not null auto_increment,
 	project integer(5) not null,
 	student integer(5) not null,
 	topictitle varchar(64) not null,
