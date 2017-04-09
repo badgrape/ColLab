@@ -190,7 +190,32 @@ function removeAssign($assignid) {
 
 // Projects: students
 
-// addProject(student, assignment, title)
+function addProject($assignment, $title) {
+	GLOBAL $pdo;
+
+	$sql = "insert into projects (assign, projecttitle)
+		values (:assign, :title)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':assign', $assignment);
+	$stmt->bindParam(':title', $title);
+ 	
+	$stmt->execute();
+}
+
+function joinGroup($student, $project) {
+	GLOBAL $pdo;
+
+	$sql = "insert into groups (student, project)
+		values (:student, :project)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':project', $project);
+ 	
+	$stmt->execute();
+}
+
 // editProject(title, assignmment)
 // joinGroup(student, project)
 // leaveGroup(student, project)
