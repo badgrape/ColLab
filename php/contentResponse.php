@@ -20,10 +20,17 @@ registerCourse(3, 1);
 registerCourse(4, 2);
 registerCourse(5, 1);
 
-addProject(1, "Best essay ever!");
-joinGroup(3, 1);
-joinGroup(5, 1);
-addProject(2, "Progress not perfection.");
-joinGroup(4, 2);
+$projectId = addProject(1, "Best essay ever!");
+joinGroup(3, $projectId);
+joinGroup(5, $projectId);
+addDraft($projectId, 3, "Colourless green ideas sleep furiously.");
+addBiblio($projectId, 5, "Hilary Putnam, Representation and Reality.");
+
+$projectId = addProject(2, "Progress not perfection.");
+joinGroup(4, $projectId);
+editProject($projectId, 2, "Smash the cistern!");
+addDraft($projectId, 4, "Oh and as I was young and easy in the mercy of his means, time held me green and dying, though I sang in my chains like the sea.");
+addBiblio($projectId, 4, "Dylan Thomas, Fern Hill.");
+
 
 ?>

@@ -144,7 +144,8 @@ function dropCourse($student, $course) {
 
 	$stmt->execute();
 }
-// Assignments
+
+// Assignments: teachers only
 
 function addAssign($title, $instructions, $course) {
 	GLOBAL $pdo;
@@ -188,7 +189,7 @@ function removeAssign($assignid) {
 	$stmt->execute();
 }
 
-// Projects: students
+// Projects: students only
 
 function addProject($assignment, $title) {
 	GLOBAL $pdo;
@@ -200,6 +201,39 @@ function addProject($assignment, $title) {
 	$stmt->bindParam(':assign', $assignment);
 	$stmt->bindParam(':title', $title);
  	
+	$stmt->execute();
+	
+	// Get project ID to auto-join first member
+	$projectID = $pdo->lastInsertId();
+
+	return $projectID;
+}
+
+function editProject($projectid, $assign, $title) {
+	GLOBAL $pdo;
+
+	$sql = "update projects set projecttitle = :title,
+		assign = :assign
+		where projectid = :projectid";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':projectid', $projectid);
+	$stmt->bindParam(':title', $title);
+	$stmt->bindParam(':assign', $assign);
+ 	
+	$stmt->execute();
+
+}
+
+// Only delete project if no group members remain
+function removeProject($projectid) {
+	GLOBAL $pdo;
+
+	$sql = "delete from projects where projectid = :projectid";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':projectid', $projectid);
+
 	$stmt->execute();
 }
 
@@ -216,19 +250,67 @@ function joinGroup($student, $project) {
 	$stmt->execute();
 }
 
-// editProject(title, assignmment)
-// joinGroup(student, project)
-// leaveGroup(student, project)
-// deleteProject(project) > only if no group members
+function leaveGroup($student, $project) {
+	GLOBAL $pdo;
+
+	$sql = "delete from groups where student = :student
+		and project = :project";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':project', $project);
+
+	$stmt->execute();
+}
+
+// Project drafts and bibliographies: students only
+
+function addDraft($project, $student, $text) {
+	GLOBAL $pdo;
+
+	$sql = "insert into projectrevisions (project, student, projecttext)
+		values (:project, :student, :text)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':text', $text);
+ 	
+	$stmt->execute();
+}
+
+function addBiblio($project, $student, $text) {
+	GLOBAL $pdo;
+
+	$sql = "insert into bibliorevisions (project, student, bibliotext)
+		values (:project, :student, :text)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':text', $text);
+ 	
+	$stmt->execute();
+}
+
+// Files: students only
+
+//function addFile
+//function removeFile($filename, $project, $student)
+
+//Discussion topics: students only
+
+//function addDiscussion
+//function editDiscussion
+//function removeDiscussion($topicid, $student)
+
+// Discussion replies: students and teachers
+
+//function addReply
+//function editReply
+//function removeReply($topicid, $user)
 
 /*
-By teachers:
-- Add replies to discussion topics and update/delete own replies
-By students:
-- Add/edit project drafts and bibliographies: revisions saved, no deleting allowed
-- Add discussion topics/replies and update/delete own
-- Upload files (insert file infomation into database and store file in project folder) and delete own files
-
 Data to be retrieved
 By teachers and students:
 - Account information; user verification for password recovery
