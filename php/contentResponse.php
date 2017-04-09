@@ -1,9 +1,11 @@
 <?php
 require_once("dbConnect.php");
 require("dbUtils.php");
+include("debug.php");
 
 // Test queries
 
+/*
 addUser("Emily", "Raine", "teacher", "mochi@badgrape.net", "many5cats");
 addUser("Jim", "Morris", "teacher", "jim@badgrape.net", "s3ns3nn0s3n");
 addUser("Jujube", "Beagle", "student", "tubetube@badgrape.net", "jujube");
@@ -32,5 +34,51 @@ editProject($projectId, 2, "Smash the cistern!");
 addDraft($projectId, 4, "Oh and as I was young and easy in the mercy of his means, time held me green and dying, though I sang in my chains like the sea.");
 addBiblio($projectId, 4, "Dylan Thomas, Fern Hill.");
 
+addFile("research.odt", 2, 4, "Important information");
+addFile("projectjournal.docx", 1, 3, "Random thoughts");
+
+addDiscussion(1, 3, "I'm so confused", "Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
+addDiscussion(2, 4, "I got it!", "Ut vitae nibh ut justo lacinia pretium.");
+
+addReply(1, 1, "Don't be so hard on yourself");
+addReply(1, 5, "Quisque eu mauris vitae magna pellentesque auctor");
+addReply(2, 2, "Love yourself to death, because that's where you're headed anyway (a guy named Marcel).");
+addReply(2, 4, "Sound advice. Cras dictum lectus non pellentesque sodales.");
+*/
+
+echo "getUser";
+printObject(getUser(4));
+echo "getProjectByAssign";
+printObject(getProjectsByAssign(2));
+echo "getProjectsByStudent";
+printObject(getProjectsByStudent(5));
+echo "getGroup";
+printObject(getGroup(1));
+echo "getCoursesByTeacher";
+printObject(getCoursesByTeacher(2));
+echo "getCoursesByStudent";
+printObject(getCoursesByStudent(5));
+echo "getAssignsByCourse";
+printObject(getAssignsByCourse(1));
+echo "getAssignsByTeacher";
+printObject(getAssignsByTeacher(2));
+echo "getAllDrafts";
+$drafts = getAllDrafts(1);
+printObject($drafts);
+echo "getOneDraft";
+printObject(getOneDraft(1, 3, $drafts[0]['dateupdated']));
+echo "getAllBiblios";
+$biblios = getAllBiblios(2);
+printObject($biblios);
+echo "getOneBiblio";
+printObject(getOneBiblio(2, 4, $biblios[0]['dateupdated']));
+echo "getFiles";
+printObject(getFiles(1));
+echo "getAllDiscussions";
+printObject(getAllDiscussions(2));
+echo "getOneDiscussion";
+printObject(getOneDiscussion(1));
+echo "getReplies";
+printObject(getReplies(1));
 
 ?>

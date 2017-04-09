@@ -1,7 +1,6 @@
 <?php
 
-// for testing:
-require_once("dbConnect.php");
+/* Mutators */
 
 // Password encryption
 
@@ -94,8 +93,8 @@ function addCourse($coursename, $discipline, $teacher) {
 function editCourse($courseid, $coursename, $discipline, $teacher) {
 	GLOBAL $pdo;
 
-	$sql = "update courses set coursename = :coursename, discipline = :discipline,
-	 teacher = :teacher where courseid = :courseid";
+	$sql = "update courses set coursename = :coursename, discipline = :discipline
+		where courseid = :courseid and teacher = :teacher";
 	$stmt = $pdo->prepare($sql);
 
 	$stmt->bindParam(':courseid', $courseid);
@@ -222,7 +221,6 @@ function editProject($projectid, $assign, $title) {
 	$stmt->bindParam(':assign', $assign);
  	
 	$stmt->execute();
-
 }
 
 // Only delete project if no group members remain
@@ -295,28 +293,371 @@ function addBiblio($project, $student, $text) {
 
 // Files: students only
 
-//function addFile
-//function removeFile($filename, $project, $student)
+function addFile($filename, $project, $student, $linktext) {
+	GLOBAL $pdo;
 
-//Discussion topics: students only
+	$sql = "insert into files (filename, project, student, linktext)
+		values (:filename, :project, :student, :linktext)";
+	$stmt = $pdo->prepare($sql);
 
-//function addDiscussion
-//function editDiscussion
-//function removeDiscussion($topicid, $student)
+	$stmt->bindParam(':filename', $filename);
+	$stmt->bindParam(':project', $project);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':linktext', $linktext);
+ 	
+	$stmt->execute();
+}
+
+function removeFile($filename, $project, $student) {
+	GLOBAL $pdo;
+
+	$sql = "delete from files where filename = :filename and
+		project = :project and student = :student";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':filename', $filename);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':project', $project);
+
+	$stmt->execute();
+}
+
+// Discussion topics: students only
+
+function addDiscussion($project, $student, $title, $text) {
+	GLOBAL $pdo;
+
+	$sql = "insert into discusstopics (project, student, topictitle, topictext)
+		values (:project, :student, :title, :text)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':title', $title);
+	$stmt->bindParam(':text', $text);
+ 	
+	$stmt->execute();
+	
+}
+
+function editDiscussion($topicid, $student, $title, $text) {
+	GLOBAL $pdo;
+
+	$sql = "update discusstopics set topictitle = :title, topictext = :text
+		where topicid = :topicid and student = :student";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':topicid', $topicid);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':title', $title);
+	$stmt->bindParam(':text', $text);
+ 	
+	$stmt->execute();
+}
+
+function removeDiscussion($topicid, $student){
+	GLOBAL $pdo;
+
+	$sql = "delete from discusstopics where topicid = :topicid and student = :student";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':topicid', $topicid);
+	$stmt->bindParam(':student', $student);
+
+	$stmt->execute();
+	
+}
 
 // Discussion replies: students and teachers
 
-//function addReply
-//function editReply
-//function removeReply($topicid, $user)
+function addReply($topic, $userid, $text) {
+	GLOBAL $pdo;
 
-/*
-Data to be retrieved
-By teachers and students:
-- Account information; user verification for password recovery
-- Project drafts and bibliographies (current and previous versions)
-- Discussion topics and replies
-- Files: file path follows pattern files/courseid/projectid and href is generated dynamically with session data
- */
+	$sql = "insert into discussreplies (topic, userid, replytext)
+		values (:topic, :userid, :text)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':topic', $topic);
+	$stmt->bindParam(':userid', $userid);
+	$stmt->bindParam(':text', $text);
+ 	
+	$stmt->execute();
+	
+}
+
+function editReply($topic, $userid, $date, $text) {
+	GLOBAL $pdo;
+
+	$sql = "update discussreplies set replytext = :text
+		where topic = :topic and userid = :userid and dateposted = :date";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':topic', $topic);
+	$stmt->bindParam(':userid', $userid);
+	$stmt->bindParam(':date', $date);
+	$stmt->bindParam(':text', $text);
+ 	
+	$stmt->execute();
+}
+
+function removeReply($topic, $userid, $date){
+	GLOBAL $pdo;
+
+	$sql = "delete from discussreplies
+		where topic = :topic and userid = :userid and dateposted = :date";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':topic', $topic);
+	$stmt->bindParam(':userid', $userid);
+	$stmt->bindParam(':date', $date);
+
+	$stmt->execute();
+	
+}
+
+/* Accessors */
+
+// Users
+
+function getUser($userid) {
+	GLOBAL $pdo;
+
+	$sql = "select fname, lname, role, email from users where userid = :userid";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':userid', $userid);
+	$stmt->execute();
+
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+// Courses
+
+function getCoursesByTeacher($teacher) {
+	GLOBAL $pdo;
+
+	$sql = "select courseid, coursename, discipline from courses where teacher = :teacher";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':teacher', $teacher);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getCoursesByStudent($student) {
+	GLOBAL $pdo;
+
+	$sql = "select c.courseid, c.coursename, c.discipline, c.teacher
+		from courses c, registration r
+		where c.courseid = r. course and r.student = :student";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':student', $student);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+// Assignments
+
+function getAssignsByCourse($course) {
+	GLOBAL $pdo;
+
+	$sql = "select assignid, assigntitle, instructions from assignments
+		where course = :course";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':course', $course);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getAssignsByTeacher($teacher) {
+	GLOBAL $pdo;
+
+	$sql = "select a.assignid, a.assigntitle, a.instructions, a.course
+		from assignments a, courses c
+		where a.course = c.courseid and c.teacher = :teacher";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':teacher', $teacher);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+// Projects
+
+function getProjectsByAssign($assign) {
+	GLOBAL $pdo;
+
+	$sql = "select projectid, projecttitle from projects where assign = :assign";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':assign', $assign);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getProjectsByStudent($student) {
+	GLOBAL $pdo;
+
+	$sql = "select p.projectid, p.assign, p.projecttitle from projects p, groups g
+		where p.projectid = g.project and g.student = :student";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':student', $student);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+// Groups
+
+function getGroup($project) {
+	GLOBAL $pdo;
+
+	$sql = "select u.userid, u.fname, u.lname from users u, groups g
+		where u.userid = g.student and g.project = :project";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->execute();
+
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+// Drafts and bibliographies
+
+function getAllDrafts($project) {
+	GLOBAL $pdo;
+
+	$sql = "select student, dateupdated, projecttext from projectrevisions
+		where project = :project";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getOneDraft($project, $student, $date) {
+	GLOBAL $pdo;
+
+	$sql = "select projecttext from projectrevisions
+		where project = :project and student = :student and dateupdated = :date";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':date', $date);
+	$stmt->execute();
+
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getAllBiblios($project) {
+	GLOBAL $pdo;
+
+	$sql = "select student, dateupdated, bibliotext from bibliorevisions
+		where project = :project";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getOneBiblio($project, $student, $date) {
+	GLOBAL $pdo;
+
+	$sql = "select bibliotext from bibliorevisions
+		where project = :project and student = :student and dateupdated = :date";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->bindParam(':student', $student);
+	$stmt->bindParam(':date', $date);
+	$stmt->execute();
+
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+// Files
+
+function getFiles($project) {
+	GLOBAL $pdo;
+
+	$sql = "select filename, student, linktext from files
+		where project = :project";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+// Discussion topics and replies
+
+function getAllDiscussions($project) {
+	GLOBAL $pdo;
+
+	$sql = "select topicid, student, topictitle, topictext, dateposted from discusstopics
+		where project = :project";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getOneDiscussion($topicid) {
+	GLOBAL $pdo;
+
+	$sql = "select project, student, topictitle, topictext, dateposted from discusstopics
+		where topicid = :topicid";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':topicid', $topicid);
+	$stmt->execute();
+
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getReplies($topic) {
+	GLOBAL $pdo;
+
+	$sql = "select userid, dateposted, replytext from discussreplies
+		where topic = :topic";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':topic', $topic);
+	$stmt->execute();
+
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+	return $result;
+}
 
 ?>
