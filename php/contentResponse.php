@@ -5,7 +5,6 @@ include("debug.php");
 
 // Test queries
 
-/*
 addUser("Emily", "Raine", "teacher", "mochi@badgrape.net", "many5cats");
 addUser("Jim", "Morris", "teacher", "jim@badgrape.net", "s3ns3nn0s3n");
 addUser("Jujube", "Beagle", "student", "tubetube@badgrape.net", "jujube");
@@ -44,7 +43,6 @@ addReply(1, 1, "Don't be so hard on yourself");
 addReply(1, 5, "Quisque eu mauris vitae magna pellentesque auctor");
 addReply(2, 2, "Love yourself to death, because that's where you're headed anyway (a guy named Marcel).");
 addReply(2, 4, "Sound advice. Cras dictum lectus non pellentesque sodales.");
-*/
 
 echo "getUser";
 printObject(getUser(4));
