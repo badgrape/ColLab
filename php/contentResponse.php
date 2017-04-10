@@ -1,6 +1,6 @@
 <?php
 require_once("dbConnect.php");
-require("dbUtils.php");
+require("dbOps.php");
 include("debug.php");
 
 // Test queries

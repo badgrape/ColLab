@@ -1,78 +1,8 @@
 <?php
 
-/* Mutators */
+// NON-USER database operations
 
-// Password encryption
-
-function getSalt($string, $max) {
-	if (strlen($string) == $max) {
-		return $string;
-	}
-
-	else {
-		$string .= chr(rand(0, 127));
-		return getSalt($string, $max);
-	}
-}
-
-function encrypt($salt, $pass) {
-	$saltedPass = $salt . $pass;
-	$token = hash('ripemd128', $saltedPass);
-	return $token;
-}
-
-// Users
-
-function addUser($fname, $lname, $role, $email, $password) {
-	GLOBAL $pdo;
-
-	$salt = getSalt("", 12);
-	$hash = encrypt($salt, $password);
-
-	$sql = "insert into users (fname, lname, role, email, salt, hash)
-		values (:fname, :lname, :role, :email, :salt, :hash)";
-	$stmt = $pdo->prepare($sql);
-
-	$stmt->bindParam(':fname', $fname);
-	$stmt->bindParam(':lname', $lname);
-	$stmt->bindParam(':role', $role);
-	$stmt->bindParam(':email', $email);
-	$stmt->bindParam(':salt', $salt);
-	$stmt->bindParam(':hash', $hash);
-
-	$stmt->execute();
-}
-
-function editUser($userid, $fname, $lname, $email, $password) {
-	GLOBAL $pdo;
-
-	$salt = getSalt("", 12);
-	$hash = encrypt($salt, $password);
-	
-	$sql = "update users set fname = :fname, lname = :lname, email = :email,
-		salt = :salt, hash = :hash where userid = :userid";
-	$stmt = $pdo->prepare($sql);
-
-	$stmt->bindParam(':userid', $userid);
-	$stmt->bindParam(':fname', $fname);
-	$stmt->bindParam(':lname', $lname);
-	$stmt->bindParam(':email', $email);
-	$stmt->bindParam(':salt', $salt);
-	$stmt->bindParam(':hash', $hash);
-
-	$stmt->execute();
-}
-
-function removeUser($userid) {
-	GLOBAL $pdo;
-
-	$sql = "delete from users where userid = :userid";
-	$stmt = $pdo->prepare($sql);
-
-	$stmt->bindParam(':userid', $userid);
-
-	$stmt->execute();
-}
+// Mutators
 
 // Courses: teachers
 
@@ -415,22 +345,7 @@ function removeReply($topic, $userid, $date){
 	
 }
 
-/* Accessors */
-
-// Users
-
-function getUser($userid) {
-	GLOBAL $pdo;
-
-	$sql = "select fname, lname, role, email from users where userid = :userid";
-	$stmt = $pdo->prepare($sql);
-
-	$stmt->bindParam(':userid', $userid);
-	$stmt->execute();
-
-	$result = $stmt->fetch(PDO::FETCH_ASSOC);
-	return $result;
-}
+// Accessors
 
 // Courses
 
