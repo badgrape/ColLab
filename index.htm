@@ -12,6 +12,13 @@
   <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/coLab.js"></script>
+	<script type="text/javascript">
+		$(function() {
+    	$('#register, #forgotPass').click(function() {
+      	$('#login').hide();
+    	});        
+		});
+	</script>
 </head>
 <body>
 <div class="container">
@@ -28,20 +35,17 @@
 </nav>	
 	<div class="row">
 		<div class="col-sm-9">
-		<form class="form-inline" action="javascript:loginDestination()">
+		<form id="login" class="form-inline" action="javascript:loginDestination()">
     <div class="form-group">
-      <label for="user">Username:</label>
-      <input type="text" class="form-control" id="user" placeholder="teacher or student" />
+      <label for="user">Email:</label>
+      <input type="email" class="form-control" id="email" />
     </div>
     <div class="form-group">
       <label for="pwd">Password:</label>
-      <input type="password" class="form-control" id="pwd" placeholder="none">
-    </div>
-    <div class="checkbox">
-      <label><input type="checkbox">Remember me</label>
+      <input type="password" class="form-control" id="pwd" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
-		<p class="form-text text-muted">Username ? "teacher" > teacher interface : "student" > student interface</p>
+		<p class="form-text text-muted"><a id="register" href="#">Create account</a> | <a id="forgotPass" href="#">Forgot password</a></p>
   </form>
 			<h3>This.Project =</h3>
 			<p>Inspired by GitHub, CoLab is a cross-discipline project collaboration platform for college and university courses. It will allow students to complete group projects online, view their classmates' additions and revisions and revert to previous versions. Teachers, in turn, will be able to monitor their students' progress and evaluate the contributions of each group member. Each project will also have a bulletin board to facilitiate communication and keep a record of decisions made and ideas shared.</p>
