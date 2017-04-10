@@ -12,5 +12,6 @@ function login() {
 
 			var user = JSON.parse(data);
 			console.log(user);
+			userRole(user);
 	});
 	}

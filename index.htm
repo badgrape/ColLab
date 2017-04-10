@@ -8,47 +8,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
   <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
+
   <link rel="stylesheet" type="text/css" href="css/coLab.css" />
+
   <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+  <script type="text/javascript" src="js/pages.js"></script>
+	<script type="text/javascript" src="js/elements.js"></script>
   <script type="text/javascript" src="js/userRequest.js"></script>
-	<script type="text/javascript">
-$(function() {
-	$('#user-form').load("pageElements.htm #login");
- 	$('body').on('click', '#register_', function(){
-		$('#user-form').load("pageElements.htm #register");
-	});
- 	$('body').on('click', '#login_', function(){
-		$('#user-form').load("pageElements.htm #login");
-	});
- 	$('body').on('click', '#recover_', function(){
-		$('#user-form').load("pageElements.htm #recover");
-	});
-});
-	</script>
 </head>
 <body>
 <div class="container">
 <header>
 	<h1>Col*Lab!</hl>
 </header>
-<nav class="navbar navbar-inverse">
-  <ul class="nav navbar-nav">
-    <li class="active"><a href="index.htm">Home</a></li>
-    <li><a href="#">Features</a></li>
-    <li><a href="#">Documentation</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-</nav>	
+<nav class="navbar navbar-inverse"></nav>	
 	<div class="row">
-		<div class="col-sm-9">
-			<p id="message" class="form-text text-muted"></p>
-			<h3>This.Project =</h3>
-			<p>Inspired by GitHub, CoLab is a cross-discipline project collaboration platform for college and university courses. It will allow students to complete group projects online, view their classmates' additions and revisions and revert to previous versions. Teachers, in turn, will be able to monitor their students' progress and evaluate the contributions of each group member. Each project will also have a bulletin board to facilitiate communication and keep a record of decisions made and ideas shared.</p>
-			<p>Pellentesque accumsan pharetra vehicula. Fusce erat lectus, facilisis nec quam in, efficitur faucibus libero. Donec eget pretium ligula. Sed ut urna sed odio blandit sollicitudin. Donec placerat porttitor viverra. Curabitur eu mattis ipsum, et auctor odio. Maecenas fringilla lacinia mi et ultricies. Donec luctus ligula vestibulum, ultricies nisl eget, dictum dolor.</p> 
-			<p>Aliquam semper justo purus, et commodo neque suscipit a. Etiam vulputate ex eget nisl scelerisque ornare. Suspendisse eget ligula nisl. Etiam fringilla tellus sed consequat porta. Vivamus consectetur pretium purus, ut viverra purus sodales vel. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce sem sapien, pellentesque ac tortor a, tristique bibendum risus. Fusce nec lobortis magna. Mauris ut sollicitudin tortor, ut blandit eros. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p> 
-			<p>Integer et massa tortor. Etiam diam tortor, lacinia quis fringilla eu, consectetur vel metus. Integer tellus augue, feugiat eu quam et, ultrices congue nisi. Duis vehicula dolor ut est mattis accumsan. Donec ut cursus ante, at condimentum lectus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Fusce eu justo sit amet arcu mattis fermentum. In sit amet mollis ante, a cursus lectus. Pellentesque vulputate aliquet ornare. Donec vulputate nec leo ac pretium. Quisque non bibendum metus. Fusce luctus, tortor id mattis fringilla, nunc sem maximus nisl, vitae vulputate ligula urna at sapien. Donec placerat diam neque, a dignissim orci rhoncus eget.</p> 
-			<p>Suspendisse convallis tristique metus, ut molestie nunc condimentum sit amet. Donec eget purus eu ex interdum maximus. Integer dictum mauris a leo dignissim pharetra faucibus non nisl. Vivamus urna quam, mattis et egestas eget, elementum congue eros. Curabitur at purus non orci tempor malesuada. Donec aliquam sollicitudin lacus, vitae blandit ex elementum vel. In hac habitasse platea dictumst. Etiam velit lacus, convallis sed congue non, rhoncus vel ex. Phasellus vitae urna ante. Curabitur cursus, felis id iaculis facilisis, justo libero tristique nulla, a rhoncus elit ipsum nec ligula. Nullam nec varius elit. Nulla lobortis ut arcu ac euismod. Nam eleifend tortor elit, quis tincidunt enim accumsan non. Suspendisse pellentesque odio enim, eget malesuada sem tincidunt quis. Fusce vel orci sem. Donec non nisi porttitor, efficitur enim vitae, euismod mauris.</p> 
+		<p id="message" class="form-text text-muted"></p>
+		<div id="main" class="col-sm-9">
 		</div>		
 		<div class="col-sm-3">
 			<div id="user-form"></div>
