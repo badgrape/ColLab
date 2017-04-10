@@ -112,7 +112,7 @@ create table files (
 	filename varchar(32) not null,
 	project integer(5) not null,
 	student integer(5) not null,
-	linktext varchar(32) not null,
+	linktext varchar(64) not null,
 	primary key (filename, project),
 	foreign key (project)	references projects(projectid)
 		on delete cascade,
