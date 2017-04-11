@@ -14,22 +14,28 @@
   <script type="text/javascript" src="js/jquery-3.2.0.min.js"></script>
   <script type="text/javascript" src="js/bootstrap.min.js"></script>
 
+  <script type="text/javascript" src="js/userRequest.js"></script>
+  <script type="text/javascript" src="js/pageContent.js"></script>
   <script type="text/javascript" src="js/pages.js"></script>
 	<script type="text/javascript" src="js/elements.js"></script>
-  <script type="text/javascript" src="js/userRequest.js"></script>
 </head>
 <body>
 <div class="container">
+<div id="userstatus">
+	<p><span class="username"></span>&nbsp;&nbsp;<a href="#account">Account</a> |
+		<a href="#logout" id="logout_">Sign out</a></p>
+</div>
 <header>
 	<h1>Col*Lab!</hl>
 </header>
 <nav class="navbar navbar-inverse"></nav>	
 	<div class="row">
-		<p id="message" class="form-text text-muted"></p>
-		<div id="main" class="col-sm-9">
+		<div class="col-sm-9">
+			<p id="message" class="form-text text-muted"></p>
+			<div id="main"></div>
 		</div>		
 		<div class="col-sm-3">
-			<div id="user-form"></div>
+			<div id="userform"></div>
 			<div class="list-group">
 			<h3>Resources</h3>
 				<a href="#" class="list-group-item">Anything but Wikipedia</a>

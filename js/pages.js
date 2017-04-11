@@ -37,10 +37,11 @@ function checkURL(hash)
 	console.log(hash);
 }
 
-// Load static content
+// Load page content
 function loadPage(url)
 {
 	switch(url) {
+	// Static pages
 	case "#features":
 		$('#main').load("staticContent.htm #features_");
 		break;
@@ -50,7 +51,15 @@ function loadPage(url)
 	case "#contact":
 		$('#main').load("staticContent.htm #contact_");
 		break;
+	
+	// Dynamic
+	case "#account":
+		userInfo(user);
+		break;
+
+	// When all else fails
 	default:
 		$('#main').load("staticContent.htm #home_");
 	}
 }
+

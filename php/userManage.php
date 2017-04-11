@@ -128,8 +128,6 @@ function updatePassword($email, $password) {
 	$stmt->bindParam(':hash', $hash);
 
 	$stmt->execute();
-
-	echo "Password updated successfully.";
 }
 
 // Post authentication
