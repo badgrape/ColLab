@@ -56,7 +56,9 @@ function loadPage(url)
 	case "#account":
 		userInfo(user);
 		break;
-
+	case "#classes":
+		courseInfo();
+		break;
 	// When all else fails
 	default:
 		$('#main').load("staticContent.htm #home_");

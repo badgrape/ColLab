@@ -7,6 +7,7 @@ function login() {
 
 	$.post("php/userResponse.php", JSON.stringify(authenticate),
 		function(data, status){
+			$("#message").html(data);
 
 			user = JSON.parse(data);
 			console.log(user);
@@ -64,6 +65,7 @@ function editUser() {
 function logout() {
 
 	delete user;
+	delete courses;
 
 	var signOut = [];
 	signOut[0] = { name: "operation", value: "logout" };
