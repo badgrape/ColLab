@@ -57,6 +57,7 @@ function loadPage(url)
 		userInfo(user);
 		break;
 	case "#classes":
+		getCourses();
 		courseInfo();
 		break;
 	// When all else fails
@@ -64,4 +65,5 @@ function loadPage(url)
 		$('#main').load("staticContent.htm #home_");
 	}
 }
+
 

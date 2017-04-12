@@ -17,11 +17,29 @@ for ($i = 0; $i < count($requestPhp); $i++) {
 
 if (isset($postLike['operation'])) {
 
+	// Return a teacher's courses
 	if ($postLike['operation'] == "getCourses") {
 	
 		try {
 		
-			$_SESSION['currentData'] = getCoursesByTeacher(1);
+			$_SESSION['currentData'] = getCoursesByTeacher($_SESSION['user']['userid']);
+
+			$courses = json_encode($_SESSION['currentData']);
+			echo $courses;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+	
+	// Add a course
+	if ($postLike['operation'] == "addCourse") {
+	
+		try {
+		
+			addCourse($postLike['title'], $postLike['discipline'], $_SESSION['user']['userid']);
+			$_SESSION['currentData'] = getCoursesByTeacher($_SESSION['user']['userid']);
 
 			$courses = json_encode($_SESSION['currentData']);
 			echo $courses;

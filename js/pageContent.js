@@ -26,22 +26,16 @@ function userInfo(user) {
 	
 }
 
-// This is weird AF
-getCourses();
-
 // Courses list
 
 function courseInfo() {
 
-	var coursesHeader = "<h3>Your courses</h3>";
+	var courseList = "<h3>Your courses</h3>";
 
-	$('#main').html(coursesHeader);
-
-	var courseList = "<table class='table'>";
+	courseList += "<table class='table table-hover'>";
 	courseList += "<tr><th>Title</th><th>Discipline</th></tr>";
-
 	for (var x in courses) {
-		courseList += "<tr>";
+		courseList += "<tr id='" + courses[x]['courseid'] + "'>";
 		for (var y in courses[x]) {
 			if (y != "courseid") {
 				courseList += "<td>" + courses[x][y] + "</td>";
@@ -54,6 +48,14 @@ function courseInfo() {
 	courseList += "<button type='button' id='addcourse_' class='btn btn-default'>";
 	courseList += "Add a course</button>";
 
-	$('#main').append(courseList);
+	$('#main').html(courseList);
+
+ 	$('body').on('click', '#addcourse_', function() {
+		$('#main').load("pageElements.htm #addcourse");
+	});
+
+ 	$('body').on('click', '#cancel_', function() {
+		courseInfo();
+	});
 
 }

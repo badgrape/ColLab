@@ -120,7 +120,7 @@
   <li><a href="#contact">Contact</a></li>
 </ul>
 
-<!-- User information table -->
+<!-- Edit user info form -->
 <form id="edituser" action="javascript:editUser()">
 	<h3>Edit account</h3>
 	<div class="form-group">
@@ -149,3 +149,17 @@
 	</div>
 </form>
 
+<form id="addcourse" action="javascript:addCourse()">
+	<div class="form-group">
+		<label for="title">Course title:</label>
+		<input type="text" class="form-control" name="title" id="title" />
+	</div>
+	<div class="form-group">
+		<label for="discipline">Discipline:</label>
+		<input type="text" class="form-control" name="discipline" id="discipline" />
+	</div>
+	<div class="btn-group">
+		<input type="submit" class="btn btn-primary" name="submit" value="Add course" />
+		<button type="button" id="cancel_" class="btn btn-default">Cancel</button>
+	</div>
+</form>

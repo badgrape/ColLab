@@ -7,7 +7,8 @@ function login() {
 
 	$.post("php/userResponse.php", JSON.stringify(authenticate),
 		function(data, status){
-			$("#message").html(data);
+
+			//$("#message").html(data);
 
 			user = JSON.parse(data);
 			console.log(user);
@@ -23,7 +24,8 @@ function register() {
 
 	$.post("php/userResponse.php", JSON.stringify(newUser),
 		function(data, status){
-			$("#message").html(data);
+	
+			//$("#message").html(data);
 
 			user = JSON.parse(data);
 			userInit(user);
@@ -38,7 +40,8 @@ function recover() {
 
 	$.post("php/userResponse.php", JSON.stringify(resetPass),
 		function(data, status){
-			$("#message").html(data);
+			
+			//$("#message").html(data);
 
 			user = JSON.parse(data);
 			userInit(user);
@@ -54,7 +57,8 @@ function editUser() {
 
 	$.post("php/userResponse.php", JSON.stringify(userData),
 		function(data, status){
-			$("#message").html(data);
+			
+			//$("#message").html(data);
 
 			user = JSON.parse(data);
 			console.log(user);
