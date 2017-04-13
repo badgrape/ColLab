@@ -139,12 +139,12 @@ function assignForm(courses) {
 	form += "<form id='addassign' action='javascript:addAssign()'>";
 	
 	form += "<div class='form-group'><label for='title'>Title:</label>";
-	form += "<input type='text' class='form-control' name='title' id='title' /></div>";
+	form += "<input type='text' class='form-control' name='title' id='title' required='required' /></div>";
 	form += "<div class='form-group'><label>Course:</label>";
 	
 	for (var x in courses) {
 		form += "<div class='radio'><label><input type='radio' name='course' value='";
-		form += courses[x]['courseid'] + "'>" + courses[x]['coursename'] + "</label></div>";
+		form += courses[x]['courseid'] + "'required='required' />" + courses[x]['coursename'] + "</label></div>";
 	}
 	
 	form += "<div class='form-group'><label for='instructions'>Instructions:</label>";

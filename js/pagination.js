@@ -65,7 +65,7 @@ function loadPage(url)
 	case "#projects":
 		getProjects();
 		break;
-	case "#bibiography":
+	case "#bibliography":
 	case "#files":
 	case "#discussion":
 		$('#main').html("<h3>Under Construction</h3><p>This funcionality has not yet been implemented.</p>");
