@@ -1,6 +1,6 @@
 <?php
 require_once("dbConnect.php");
-require("dbOperations.php");
+require("contentManage.php");
 require("userManage.php");
 include("debug.php");
 

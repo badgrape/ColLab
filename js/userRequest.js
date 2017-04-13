@@ -49,6 +49,23 @@ function recover() {
 
 }
 
+// show user
+
+function getUser() {
+
+	var request = [];
+	request[0] = { name: "email", value: user['email']	};
+	request[1] = { name: "operation", value: "getUser" };
+
+	$.post("php/userResponse.php", JSON.stringify(request),
+		function(data, status){
+			
+			user = JSON.parse(data);
+			userInfo(user);
+	});
+
+}
+
 // edit
 
 function editUser() {
@@ -61,7 +78,6 @@ function editUser() {
 			//$("#message").html(data);
 
 			user = JSON.parse(data);
-			console.log(user);
 			userInfo(user);
 	});
 }

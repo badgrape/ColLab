@@ -3,13 +3,15 @@
 session_start();
 
 require_once("dbConnect.php");
-require("dbOperations.php");
+require("contentManage.php");
 require("userManage.php");
 include("debug.php");
 
 $requestJson = file_get_contents('php://input');
 
 $requestPhp = json_decode($requestJson, true);
+
+$postlike = [];
 
 for ($i = 0; $i < count($requestPhp); $i++) {
 	$postLike[$requestPhp[$i]['name']] = $requestPhp[$i]['value'];
@@ -49,8 +51,56 @@ if (isset($postLike['operation'])) {
 		catch(PDOException $e) {echo $e->getMessage();}
 
 	}
+	
+	// Return a course's students
+	if ($postLike['operation'] == "getStudents") {
+	
+		try {
+		
+			$_SESSION['currentData'] = getStudents($postLike['course']);
 
+			$students = json_encode($_SESSION['currentData']);
+			echo $students;
 
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+	
+	// Return a teacher's assignments
+	if ($postLike['operation'] == "getAssigns") {
+	
+		try {
+		
+			$_SESSION['currentData'] = getAssignsByTeacher($_SESSION['user']['userid']);
+
+			$assigns = json_encode($_SESSION['currentData']);
+			echo $assigns;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+
+	// Add an assignment
+	if ($postLike['operation'] == "addAssign") {
+	
+		try {
+		
+			addAssign($postLike['title'], $postLike['instructions'], $postLike['course']);
+			$_SESSION['currentData'] = getAssignsByTeacher($_SESSION['user']['userid']);
+
+			$assigns = json_encode($_SESSION['currentData']);
+			echo $assigns;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+	
 }
 
 else {echo "No data";}

@@ -198,6 +198,13 @@ catch(PDOException $e) {echo $e->getMessage();}
 
 	}
 
+	elseif ($postLike['operation'] == "getUser") {
+
+		$user = json_encode($_SESSION['user']);
+		echo $user;
+	
+	}
+
 	elseif ($postLike['operation'] == "logout") {
 		
 		session_unset();
@@ -205,6 +212,13 @@ catch(PDOException $e) {echo $e->getMessage();}
 
 		$redirect = "index.htm";
 		echo $redirect;
+	
+	}
+
+	elseif ($postLike['operation'] == "getUser") {
+
+		$user = json_encode($_SESSION['user']);
+		echo $user;
 	
 	}
 }
