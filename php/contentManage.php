@@ -459,8 +459,8 @@ function getProjectsByAssign($assign) {
 function getProjectsByStudent($student) {
 	GLOBAL $pdo;
 
-	$sql = "select p.projectid, p.assign, p.projecttitle from projects p, groups g
-		where p.projectid = g.project and g.student = :student";
+	$sql = "select p.projectid, p.projecttitle, a.assigntitle from projects p, assignments a, groups g
+		where p.projectid = g.project and p.assign = a.assignid and g.student = :student";
 	$stmt = $pdo->prepare($sql);
 
 	$stmt->bindParam(':student', $student);
@@ -505,13 +505,29 @@ function getAllDrafts($project) {
 function getOneDraft($project, $student, $date) {
 	GLOBAL $pdo;
 
-	$sql = "select projecttext from projectrevisions
-		where project = :project and student = :student and dateupdated = :date";
+	$sql = "select r.projecttext, p.projecttitle from projectrevisions r, projects p
+		where r.project = p.projectid and project = :project and student = :student and dateupdated = :date";
 	$stmt = $pdo->prepare($sql);
 
 	$stmt->bindParam(':project', $project);
 	$stmt->bindParam(':student', $student);
-	$stmt->bindParam(':date', $date);
+	//$stmt->bindParam(':date', $date);
+	$stmt->execute();
+
+	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	return $result;
+}
+
+function getLatestDraft($project, $student) {
+	GLOBAL $pdo;
+
+	$sql = "select r.projecttext, p.projecttitle, r.project from projectrevisions r, projects p
+		where r.project = p.projectid and project = :project and dateupdated =
+		(select max(dateupdated) from projectrevisions where student = :student)";
+	$stmt = $pdo->prepare($sql);
+
+	$stmt->bindParam(':project', $project);
+	$stmt->bindParam(':student', $student);
 	$stmt->execute();
 
 	$result = $stmt->fetch(PDO::FETCH_ASSOC);

@@ -74,3 +74,45 @@ function addAssign() {
 			assignInfo(assigns);
 	});
 }
+
+function getProjects() {
+
+	var request = [];
+	request[0] = { name: "operation", value: "getProjects" };
+
+	$.post("php/contentResponse.php", JSON.stringify(request),
+		function(data, status){
+
+		projects = JSON.parse(data);
+		projectList(projects);
+	});
+}
+
+function getDraft(project) {
+
+	var request = [];
+	request[0] = { name: "project", value: project };
+	request[1] = { name: "operation", value: "getDraft" };
+
+	$.post("php/contentResponse.php", JSON.stringify(request),
+		function(data, status){
+
+			draft = JSON.parse(data);
+			console.log(draft);
+			draftView(draft);
+	});
+}
+
+function saveDraft() {
+
+	var request = $('#savedraft').serializeArray();
+	request.push({ name: "operation", value: "saveDraft" });
+
+	$.post("php/contentResponse.php", JSON.stringify(request),
+		function(data, status){
+
+		draft = JSON.parse(data);
+		draftView(draft);
+	});
+}
+

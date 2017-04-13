@@ -48,11 +48,11 @@ function loadPage(url)
 	case "#documentation":
 		$('#main').load("staticContent.htm #documentation_");
 		break;
+
+	// Dynamic
 	case "#contact":
 		$('#main').load("staticElements.htm #contact");
 		break;
-	
-	// Dynamic
 	case "#account":
 		getUser();
 		break;
@@ -62,8 +62,13 @@ function loadPage(url)
 	case "#assignments":
 		getAssigns();
 		break;
+	case "#projects":
+		getProjects();
+		break;
+	case "#bibiography":
+	case "#files":
 	case "#discussion":
-		$('#main').html("<h3>Under Construction</h3>");
+		$('#main').html("<h3>Under Construction</h3><p>This funcionality has not yet been implemented.</p>");
 		break;
 	// When all else fails
 	default:

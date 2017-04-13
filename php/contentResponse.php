@@ -100,7 +100,55 @@ if (isset($postLike['operation'])) {
 		catch(PDOException $e) {echo $e->getMessage();}
 
 	}
+
+	// Return a student's projects
+	if ($postLike['operation'] == "getProjects") {
 	
+		try {
+		
+			$_SESSION['currentData'] = getProjectsByStudent($_SESSION['user']['userid']);
+
+			$projects = json_encode($_SESSION['currentData']);
+			echo $projects;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+	
+	if ($postLike['operation'] == "getDraft") {
+	
+		try {
+		
+			$_SESSION['currentData'] = getLatestDraft($postLike['project'], $_SESSION['user']['userid']);
+
+			$draft = json_encode($_SESSION['currentData']);
+			echo $draft;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+	
+	if ($postLike['operation'] == "saveDraft") {
+	
+		try {
+		
+			addDraft($_SESSION['currentData']['project'], $_SESSION['user']['userid'], $postLike['text']);
+
+			$_SESSION['currentData'] = getLatestDraft($_SESSION['currentData']['project'], $_SESSION['user']['userid']);
+
+			$draft = json_encode($_SESSION['currentData']);
+			echo $draft;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+
 }
 
 else {echo "No data";}

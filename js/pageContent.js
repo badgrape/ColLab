@@ -162,3 +162,67 @@ function assignForm(courses) {
 
 }
 
+function projectList(projects) {
+	var projectList = "<h3>Your Projects</h3>";
+
+	projectList += "<table id='projectlist' class='table table-hover'>";
+	projectList += "<tr><th>Title</th><th>Course</th></tr>";
+
+	for (var x in projects) {
+		projectList += "<tr><td><button type='button' id='"
+		projectList += projects[x]['projectid'] + "' class='btn btn-link'>";
+		projectList += projects[x]['projecttitle'] + "</button></td>";
+		projectList += "<td>" + projects[x]['assigntitle'] + "</td>";
+		projectList += "</tr>";
+	}
+
+	projectList += "</table>";
+	projectList += "<button type='button' id='addproject_' class='btn btn-default'>";
+	projectList += "Add a project</button>";
+
+	$('#main').html(projectList);
+
+ 	$('body').on('click', '#projectlist .btn', function() {
+		console.log($(this).attr("id"));
+		getDraft($(this).attr("id"));
+	});
+
+}
+
+function draftView(draft) {
+
+	var version = "<div id='fileBox'><div id='fileinfo'><div id='fileName'>File: ";
+	version += draft['projecttitle'] + "</div><div id='fileOps'>";
+	version += "<button type='button' class='btn btn-default btn-sm goback'>Go back</button>";
+	version += "<button type='button' class='btn btn-default btn-sm changes'>View most recent changes</button>";
+	version += "<button type='button' class='btn btn-primary btn-sm edit'>Edit</button></div>";
+	version += "</div><div id='fileView'>" + draft['projecttext'];
+	version += "</div></div>";
+
+	$('#main').html(version);
+
+ 	$('body').on('click', '#fileBox .goback', function() {
+		getProjects();
+	});
+
+ 	$('body').on('click', '#fileBox .edit', function() {
+		draftEdit(draft);
+	});
+}
+
+function draftEdit(draft) {
+
+	var editor = "<div id='fileBox'><form id='savedraft' action='javascript:saveDraft()'>";
+	editor += "<div class='form-group'>File: " + draft['projecttitle'];
+	editor += "<input type='submit' class='btn btn-primary btn-sm save' value='Save'/>";
+	editor += "<button type='button' class='btn btn-default btn-sm cancel'>Cancel</button></div>";
+	editor += "<textarea name='text' id='text' class='form-control' rows='15' required='required'>";
+	editor += draft['projecttext'] + "</textarea></form></div>";
+
+	$('#main').html(editor);
+
+ 	$('body').on('click', '#savedraft .cancel', function() {
+		getDraft(draft['project']);
+	});
+
+}
