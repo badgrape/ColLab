@@ -130,24 +130,59 @@ if (isset($postLike['operation'])) {
 	}
 
 	// return group members of a given project
-
-	// Step 1: get the projects belonging to a given assignment
 	if ($postLike['operation'] == "getProjectGroups") {
 	
 		try {
 		
 			$projects = getProjectsByAssign($postLike['assign']);
 
-			$groups = [];
-
 			for ($i = 0; $i < count($projects); $i++) {
-				$groups[$i][$projects[$i]['projectid']] = getGroup($projects[$i]['projectid']);
+				
+				$projects[$i]['members'] = [];
+				$group = getGroup($projects[$i]['projectid']);
+
+					for ($j = 0; $j < count($group); $j++) {
+						$projects[$i]['members'][$j] = $group[$j];
+					}
+
 			}
 
-			$_SESSION['currentData'] = $groups;
+			$_SESSION['currentData'] = $projects;
 
 			$groups = json_encode($_SESSION['currentData']);
 			echo $groups;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+
+	if ($postLike['operation'] == "joinGroup") {
+
+		try {
+
+			joinGroup($_SESSION['user']['userid'], $postLike['group']);
+
+			$message = "You were succesfully added to the group.";
+			echo $message;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+
+	if ($postLike['operation'] == "addProject") {
+
+		try {
+
+			$newProject = addProject($_SESSION['currentData'][0]['assign'], $postLike['newgroup']);
+
+			joinGroup($_SESSION['user']['userid'], $newProject);
+
+			$message = "You succesfully added a new project.";
+			echo $message;
 
 		}
 
@@ -161,6 +196,13 @@ if (isset($postLike['operation'])) {
 	
 		try {
 		
+			if (getLatestDraft($postLike['project']) == null) {
+
+				addDraft($postLike['project'], $_SESSION['user']['userid'],
+					"This the first draft of your new project. Click \"edit\" to get started.");
+
+			}
+
 			$_SESSION['currentData'] = getLatestDraft($postLike['project']);
 
 			$draft = json_encode($_SESSION['currentData']);

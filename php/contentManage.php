@@ -445,7 +445,7 @@ function getAssign($assign) {
 function getProjectsByAssign($assign) {
 	GLOBAL $pdo;
 
-	$sql = "select projectid, projecttitle from projects where assign = :assign";
+	$sql = "select assign, projectid, projecttitle from projects where assign = :assign";
 	$stmt = $pdo->prepare($sql);
 
 	$stmt->bindParam(':assign', $assign);
@@ -458,8 +458,10 @@ function getProjectsByAssign($assign) {
 function getProjectsByStudent($student) {
 	GLOBAL $pdo;
 
-	$sql = "select p.projectid, p.projecttitle, a.assigntitle from projects p, assignments a, groups g
-		where p.projectid = g.project and p.assign = a.assignid and g.student = :student";
+	$sql = "select p.projectid, p.projecttitle, a.assigntitle, c.coursename
+		from projects p, assignments a, groups g, courses c
+		where p.projectid = g.project and p.assign = a.assignid and a.course = c.courseid
+		and g.student = :student";
 	$stmt = $pdo->prepare($sql);
 
 	$stmt->bindParam(':student', $student);
@@ -481,7 +483,7 @@ function getGroup($project) {
 	$stmt->bindParam(':project', $project);
 	$stmt->execute();
 
-	$result = $stmt->fetch(PDO::FETCH_ASSOC);
+	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
 	return $result;
 }
 

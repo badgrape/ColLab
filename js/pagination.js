@@ -60,7 +60,7 @@ function loadPage(url)
 		getCourses("list");
 		break;
 	case "#assignments":
-		getAssigns();
+		getAssigns("teacher");
 		break;
 	case "#projects":
 		getProjects();

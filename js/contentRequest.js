@@ -63,10 +63,7 @@ function getAssigns(filter) {
 
 	var request = $("#projectcourse").serializeArray();
 	request.push({ name: "operation", value: "getAssigns" });
-
-	if (filter == "course") {
-		request.push({ name: "filter", value: filter });
-	}
+	request.push({ name: "filter", value: filter });
 
 	$.post("php/contentResponse.php", JSON.stringify(request),
 		function(data, status){
@@ -106,19 +103,72 @@ function getProjects() {
 	});
 }
 
-function projectGroups() {
+function projectGroups(projectID) {
 
-	var request = $('#projectassign').serializeArray();
+	var forStudent = projectID == undefined;
+
+	var request = [];
+	
+
+	if (forStudent) {
+		request = $('#projectassign').serializeArray();	
+	}
+
+	else {
+		request[0] = { name: "assign", value: projectID };
+	}
+	
 	request.push({ name: "operation", value: "getProjectGroups" });
+
+	$.post("php/contentResponse.php", JSON.stringify(request),
+		function(data, status){
+
+		groups = JSON.parse(data);
+		
+		if (forStudent) {
+			selectProject(groups);
+		}
+
+		else {
+			listProjects(groups);
+		}
+
+		console.log(groups);
+	});
+}
+
+function addProject() {
+
+	var request = $('#projectselect').serializeArray();
+	
+	var joinGroup = $("#projectselect .radio input").is(":checked");
+	var newProject = $("#projectselect #newgroup").val().length > 0;
+	// Input validation
+	if (joinGroup && newProject) {
+		$("#message").html("Either join an existing group or start a new one. You can't do both");
+	}
+
+	else if (joinGroup) {
+		request.push({ name: "operation", value: "joinGroup" });
+	}
+
+	else if (newProject) {
+		request.push({ name: "operation", value: "addProject" });
+	}
+
+	else {
+		$("#message").html("Do something or click \"cancel.\"");
+	
+	}
 
 	$.post("php/contentResponse.php", JSON.stringify(request),
 		function(data, status){
 		$("#message").html(data);
 
-		groups = JSON.parse(data);
-		console.log(groups);
-		projectSelect(projects);
+		getProjects();
+			
 	});
+
 }
 
 function getDraft(project) {

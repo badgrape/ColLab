@@ -114,11 +114,11 @@ function assignInfo(assigns) {
 
 	$('#main').html(assignList);
 
-	/*
+
  	$('body').on('click', '#assignlist .btn', function() {
-		showAssign($("#courselist .btn").attr("id"));
+		projectGroups($(this).attr("id"));
 	});
-	*/
+	
 
  	$('body').on('click', '#addassign_', function() {
 		getCourses("options");
@@ -162,18 +162,19 @@ function assignForm(courses) {
 
 }
 
-// List of student's projects
+// List of student's projects: for student
 
 function projectList(projects) {
-	// here!
+
 	var projectList = "<h3>Your Projects</h3>";
 	projectList += "<table id='projectlist' class='table table-hover'>";
-	projectList += "<tr><th>Title</th><th>Course</th></tr>";
+	projectList += "<tr><th>Title</th><th>Course</th><th>Assignment</th></tr>";
 
 	for (var x in projects) {
 		projectList += "<tr><td><button type='button' id='"
 		projectList += projects[x]['projectid'] + "' class='btn btn-link'>";
 		projectList += projects[x]['projecttitle'] + "</button></td>";
+		projectList += "<td>" + projects[x]['coursename'] + "</td>";
 		projectList += "<td>" + projects[x]['assigntitle'] + "</td>";
 		projectList += "</tr>";
 	}
@@ -185,12 +186,45 @@ function projectList(projects) {
 	$('#main').html(projectList);
 
  	$('body').on('click', '#projectlist .btn', function() {
-		console.log($(this).attr("id"));
 		getDraft($(this).attr("id"));
 	});
 
  	$('body').on('click', '#addproject', function() {
 		getCourses("options");
+	});
+
+}
+
+// List of student projects by assignment: for teacher
+
+function listProjects(projects) {
+
+	var projectList = "<h3>Student Project Groups</h3>";
+	projectList += "<table id='projectlist' class='table table-hover'>";
+	projectList += "<tr><th>Title</th><th>Students</th></tr>";
+
+	for (var x in projects) {
+		projectList += "<tr><td><button type='button' id='"
+		projectList += projects[x]['projectid'] + "' class='btn btn-link'>";
+		projectList += projects[x]['projecttitle'] + "</button></td><td>";
+		for (var y in projects[x]['members']) {
+			var member = projects[x]['members'][y];
+			projectList += member['fname'] + " " + member['lname'] + " + ";
+		}
+		projectList += "</td></tr>";
+	}
+
+	projectList += "</table>";
+	projectList += "<button type='button' id='cancel_' class='btn btn-default'>Go back</button>";
+
+	$('#main').html(projectList);
+
+ 	$('body').on('click', '#projectlist .btn', function() {
+		getDraft($(this).attr("id"));
+	});
+
+ 	$('body').on('click', '#cancel_', function() {
+		getAssigns("teacher");
 	});
 
 }
@@ -223,14 +257,16 @@ function registerCourse(courses) {
 // Add project, step 2: select an assignment
 
 function selectAssign(assigns) {
+
 	var assignForm = "<h3>Add Project</h3>";
 	assignForm += "<form id='projectassign' action='javascript:projectGroups()'>";
 	assignForm += "<div class='form-group'><label>Select an assignment:</label>";
 
 	for (var x in assigns) {
 		assignForm += "<div class='radio'><label><input type='radio' name='assign' value='";
-		assignForm += assigns[x]['assignid'] + "'required='required' />" + assigns[x]['assigntitle'];
-		assignForm += "</label></div>";
+		assignForm += assigns[x]['assignid'] + "'required='required' />";
+	 	assignForm += "<strong>" + assigns[x]['assigntitle'] + "</strong>";
+		assignForm += "<br />Instructions: " + assigns[x]['instructions'] + "</label></div>";
 	}	
 
 	assignForm += "</div><input type='submit' name='submit' class='btn btn-primary' value='Continue'>";
@@ -248,9 +284,37 @@ function selectAssign(assigns) {
 
 function selectProject(projects) {
 
+	var projForm = "<h3>Add Project</h3>";
+	projForm += "<form id='projectselect' action='javascript:addProject()'>";
+	projForm += "<div class='form-group'><label>Join a group:</label>"; 
 
+	for (var x in projects) {
+		projForm += "<div class='radio'><label><input type='radio' name='group' value='";
+		projForm += projects[x]['projectid'] + "' />";
+	 	projForm += "<strong>" + projects[x]['projecttitle'] + "</strong>";
+		projForm += "<br />Members: "
+			
+		for (var y in projects[x]['members']) {
+			var member = projects[x]['members'][y];
+			projForm += member['fname'] + " " + member['lname'] + " + ";
+		}
+	}
+
+	projForm += "</label></div>";
+
+	projForm += "<div class='form-group'><label for='newgroup'>Or start a new one:</label>";
+	projForm += "<input type='text' name='newgroup' id='newgroup' class='form-control' />";
+	projForm += "</div><input type='submit' name='submit' class='btn btn-primary' value='Submit'>";
+	projForm += "<button type='button' id='cancel_' class='btn btn-default'>Cancel</button></form>";
+
+	$('#main').html(projForm);
+
+ 	$('body').on('click', '#cancel_', function() {
+		getProjects();
+	});
 
 }
+
 // See the most recent project draft
 
 function draftView(draft) {
@@ -258,15 +322,19 @@ function draftView(draft) {
 	var version = "<div id='fileBox'><div id='fileinfo'><div id='fileName'>";
 	version += draft['projecttitle'] + "</div><div id='fileOps'>";
 	version += "<button type='button' class='btn btn-default btn-sm goback'>Go back</button>";
-	version += "<button type='button' class='btn btn-default btn-sm changes'>View most recent changes</button>";
-	version += "<button type='button' class='btn btn-primary btn-sm edit'>Edit</button></div>";
-	version += "</div><div id='fileView'>" + draft['projecttext'];
+	version += "<button type='button' class='btn btn-default btn-sm changes disabled'>";
+	version += "View most recent changes</button>";
+	if (user['role'] == "student") {
+		version += "<button type='button' class='btn btn-primary btn-sm edit'>Edit</button>";
+	}
+	version += "</div></div><div id='fileView'>" + draft['projecttext'];
 	version += "</div></div>";
 
 	$('#main').html(version);
 
  	$('body').on('click', '#fileBox .goback', function() {
-		getProjects();
+		if (user['role'] == "student") {getProjects();}
+		else {getAssigns("teacher");}
 	});
 
  	$('body').on('click', '#fileBox .edit', function() {
