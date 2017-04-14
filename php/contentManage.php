@@ -362,15 +362,14 @@ function getCoursesByTeacher($teacher) {
 	return $result;
 }
 
-function getCoursesByStudent($student) {
+function getAllCourses() {
 	GLOBAL $pdo;
 
-	$sql = "select c.courseid, c.coursename, c.discipline, c.teacher
-		from courses c, registration r
-		where c.courseid = r. course and r.student = :student";
+	$sql = "select distinct c.courseid, c.coursename, c.discipline, u.fname, u.lname
+		from courses c, registration r, users u
+		where c.courseid = r. course and c.teacher = u.userid";
 	$stmt = $pdo->prepare($sql);
 
-	$stmt->bindParam(':student', $student);
 	$stmt->execute();
 
 	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -518,16 +517,15 @@ function getOneDraft($project, $student, $date) {
 	return $result;
 }
 
-function getLatestDraft($project, $student) {
+function getLatestDraft($project) {
 	GLOBAL $pdo;
 
 	$sql = "select r.projecttext, p.projecttitle, r.project from projectrevisions r, projects p
-		where r.project = p.projectid and project = :project and dateupdated =
-		(select max(dateupdated) from projectrevisions where student = :student)";
+		where r.project = p.projectid and dateupdated =
+		(select max(dateupdated) from projectrevisions where project = :project)";
 	$stmt = $pdo->prepare($sql);
 
 	$stmt->bindParam(':project', $project);
-	$stmt->bindParam(':student', $student);
 	$stmt->execute();
 
 	$result = $stmt->fetch(PDO::FETCH_ASSOC);

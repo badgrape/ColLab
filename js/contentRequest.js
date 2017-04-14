@@ -13,15 +13,23 @@ function getCourses(purpose) {
 
 	var request = [];
 	request[0] = { name: "operation", value: "getCourses" };
+	request[1] = { name: "role", value: user['role'] };
 
 	$.post("php/contentResponse.php", JSON.stringify(request),
 		function(data, status){
 			courses = JSON.parse(data);
-			if (purpose == "list") {
-				courseInfo(courses);
+
+			if (user['role'] == "teacher") {
+				if (purpose == "list") {
+					courseInfo(courses);
+				}
+				else if (purpose == "options") {
+					assignForm(courses);
+				}
 			}
-			else if (purpose == "options") {
-				assignForm(courses);
+
+			else if (user['role'] == "student") {
+				registerCourse(courses)	
 			}
 	});
 }
@@ -51,15 +59,25 @@ function getStudents(course) {
 	});
 }
 
-function getAssigns() {
+function getAssigns(filter) {
 
-	var request = [];
-	request[0] = { name: "operation", value: "getAssigns" };
+	var request = $("#projectcourse").serializeArray();
+	request.push({ name: "operation", value: "getAssigns" });
+
+	if (filter == "course") {
+		request.push({ name: "filter", value: filter });
+	}
 
 	$.post("php/contentResponse.php", JSON.stringify(request),
 		function(data, status){
 			assigns = JSON.parse(data);
-			assignInfo(assigns);
+			
+			if (filter == "course") {
+				selectAssign(assigns);
+			}
+			else {
+				assignInfo(assigns);
+			}
 	});
 }
 
@@ -88,6 +106,21 @@ function getProjects() {
 	});
 }
 
+function projectGroups() {
+
+	var request = $('#projectassign').serializeArray();
+	request.push({ name: "operation", value: "getProjectGroups" });
+
+	$.post("php/contentResponse.php", JSON.stringify(request),
+		function(data, status){
+		$("#message").html(data);
+
+		groups = JSON.parse(data);
+		console.log(groups);
+		projectSelect(projects);
+	});
+}
+
 function getDraft(project) {
 
 	var request = [];
@@ -98,7 +131,6 @@ function getDraft(project) {
 		function(data, status){
 
 			draft = JSON.parse(data);
-			console.log(draft);
 			draftView(draft);
 	});
 }

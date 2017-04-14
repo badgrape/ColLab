@@ -125,7 +125,7 @@ function assignInfo(assigns) {
 	});
 
  	$('body').on('click', '#cancel_', function() {
-		getAssigns();
+		getAssigns("teacher");
 	});
 
 }
@@ -157,14 +157,16 @@ function assignForm(courses) {
 	$('#main').html(form);
 
  	$('body').on('click', '#cancel_', function() {
-		getAssigns();
+		getAssigns("teacher");
 	});
 
 }
 
-function projectList(projects) {
-	var projectList = "<h3>Your Projects</h3>";
+// List of student's projects
 
+function projectList(projects) {
+	// here!
+	var projectList = "<h3>Your Projects</h3>";
 	projectList += "<table id='projectlist' class='table table-hover'>";
 	projectList += "<tr><th>Title</th><th>Course</th></tr>";
 
@@ -177,7 +179,7 @@ function projectList(projects) {
 	}
 
 	projectList += "</table>";
-	projectList += "<button type='button' id='addproject_' class='btn btn-default'>";
+	projectList += "<button type='button' id='addproject' class='btn btn-default'>";
 	projectList += "Add a project</button>";
 
 	$('#main').html(projectList);
@@ -187,11 +189,73 @@ function projectList(projects) {
 		getDraft($(this).attr("id"));
 	});
 
+ 	$('body').on('click', '#addproject', function() {
+		getCourses("options");
+	});
+
 }
+
+// Add project, step 1: register in a course
+
+function registerCourse(courses) {
+
+	var regForm = "<h3>Add Project</h3>";
+	regForm += "<form id='projectcourse' action='javascript:getAssigns(\"course\")'>";
+	regForm += "<div class='form-group'><label>Select a course:</label>";
+
+	for (var x in courses) {
+		regForm += "<div class='radio'><label><input type='radio' name='course' value='";
+		regForm += courses[x]['courseid'] + "'required='required' />" + courses[x]['coursename'];
+		regForm += " (Instructor: " + courses[x]['fname'] + " " + courses[x]['lname'] + ")</label></div>";
+	}	
+
+	regForm += "</div><input type='submit' name='submit' class='btn btn-primary' value='Register'>";
+	regForm += "<button type='button' id='cancel_' class='btn btn-default'>Cancel</button></form>";
+
+	$('#main').html(regForm);
+
+ 	$('body').on('click', '#cancel_', function() {
+		getProjects();
+	});
+
+}
+
+// Add project, step 2: select an assignment
+
+function selectAssign(assigns) {
+	var assignForm = "<h3>Add Project</h3>";
+	assignForm += "<form id='projectassign' action='javascript:projectGroups()'>";
+	assignForm += "<div class='form-group'><label>Select an assignment:</label>";
+
+	for (var x in assigns) {
+		assignForm += "<div class='radio'><label><input type='radio' name='assign' value='";
+		assignForm += assigns[x]['assignid'] + "'required='required' />" + assigns[x]['assigntitle'];
+		assignForm += "</label></div>";
+	}	
+
+	assignForm += "</div><input type='submit' name='submit' class='btn btn-primary' value='Continue'>";
+	assignForm += "<button type='button' id='cancel_' class='btn btn-default'>Cancel</button></form>";
+
+	$('#main').html(assignForm);
+
+ 	$('body').on('click', '#cancel_', function() {
+		getProjects();
+	});
+
+}
+
+// Add project, step 3: join a project group, or start a new one
+
+function selectProject(projects) {
+
+
+
+}
+// See the most recent project draft
 
 function draftView(draft) {
 
-	var version = "<div id='fileBox'><div id='fileinfo'><div id='fileName'>File: ";
+	var version = "<div id='fileBox'><div id='fileinfo'><div id='fileName'>";
 	version += draft['projecttitle'] + "</div><div id='fileOps'>";
 	version += "<button type='button' class='btn btn-default btn-sm goback'>Go back</button>";
 	version += "<button type='button' class='btn btn-default btn-sm changes'>View most recent changes</button>";
@@ -210,10 +274,12 @@ function draftView(draft) {
 	});
 }
 
+// Edit the most recent project draft
+
 function draftEdit(draft) {
 
 	var editor = "<div id='fileBox'><form id='savedraft' action='javascript:saveDraft()'>";
-	editor += "<div class='form-group'>File: " + draft['projecttitle'];
+	editor += "<div class='form-group'>" + draft['projecttitle'];
 	editor += "<input type='submit' class='btn btn-primary btn-sm save' value='Save'/>";
 	editor += "<button type='button' class='btn btn-default btn-sm cancel'>Cancel</button></div>";
 	editor += "<textarea name='text' id='text' class='form-control' rows='15' required='required'>";
@@ -226,3 +292,4 @@ function draftEdit(draft) {
 	});
 
 }
+

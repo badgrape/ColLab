@@ -23,8 +23,14 @@ if (isset($postLike['operation'])) {
 	if ($postLike['operation'] == "getCourses") {
 	
 		try {
-		
-			$_SESSION['currentData'] = getCoursesByTeacher($_SESSION['user']['userid']);
+
+			if ($postLike['role'] == "student")	{
+				$_SESSION['currentData'] = getAllCourses();
+			}
+
+			else {
+				$_SESSION['currentData'] = getCoursesByTeacher($_SESSION['user']['userid']);
+			}
 
 			$courses = json_encode($_SESSION['currentData']);
 			echo $courses;
@@ -73,7 +79,13 @@ if (isset($postLike['operation'])) {
 	
 		try {
 		
-			$_SESSION['currentData'] = getAssignsByTeacher($_SESSION['user']['userid']);
+			if ($postLike['filter'] == "course") {
+				$_SESSION['currentData'] = getAssignsByCourse($postLike['course']);
+			}
+
+			else{
+				$_SESSION['currentData'] = getAssignsByTeacher($_SESSION['user']['userid']);
+			}
 
 			$assigns = json_encode($_SESSION['currentData']);
 			echo $assigns;
@@ -116,12 +128,40 @@ if (isset($postLike['operation'])) {
 		catch(PDOException $e) {echo $e->getMessage();}
 
 	}
+
+	// return group members of a given project
+
+	// Step 1: get the projects belonging to a given assignment
+	if ($postLike['operation'] == "getProjectGroups") {
 	
+		try {
+		
+			$projects = getProjectsByAssign($postLike['assign']);
+
+			$groups = [];
+
+			for ($i = 0; $i < count($projects); $i++) {
+				$groups[$i][$projects[$i]['projectid']] = getGroup($projects[$i]['projectid']);
+			}
+
+			$_SESSION['currentData'] = $groups;
+
+			$groups = json_encode($_SESSION['currentData']);
+			echo $groups;
+
+		}
+
+		catch(PDOException $e) {echo $e->getMessage();}
+
+	}
+	
+	
+	// Return lastest project version	
 	if ($postLike['operation'] == "getDraft") {
 	
 		try {
 		
-			$_SESSION['currentData'] = getLatestDraft($postLike['project'], $_SESSION['user']['userid']);
+			$_SESSION['currentData'] = getLatestDraft($postLike['project']);
 
 			$draft = json_encode($_SESSION['currentData']);
 			echo $draft;
