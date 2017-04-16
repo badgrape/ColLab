@@ -117,6 +117,7 @@ function assignInfo(assigns) {
 
  	$('body').on('click', '#assignlist .btn', function() {
 		projectGroups($(this).attr("id"));
+		console.log($(this).attr("id"));
 	});
 	
 
@@ -298,9 +299,11 @@ function selectProject(projects) {
 			var member = projects[x]['members'][y];
 			projForm += member['fname'] + " " + member['lname'] + " + ";
 		}
+
+		projForm += "</label></div>";
 	}
 
-	projForm += "</label></div>";
+	projForm += "</div>";
 
 	projForm += "<div class='form-group'><label for='newgroup'>Or start a new one:</label>";
 	projForm += "<input type='text' name='newgroup' id='newgroup' class='form-control' />";

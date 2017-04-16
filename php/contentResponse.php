@@ -18,8 +18,7 @@ for ($i = 0; $i < count($requestPhp); $i++) {
 }
 
 if (isset($postLike['operation'])) {
-
-	// Return a teacher's courses
+		// Return a teacher's courses
 	if ($postLike['operation'] == "getCourses") {
 	
 		try {
@@ -131,7 +130,7 @@ if (isset($postLike['operation'])) {
 
 	// return group members of a given project
 	if ($postLike['operation'] == "getProjectGroups") {
-	
+
 		try {
 		
 			$projects = getProjectsByAssign($postLike['assign']);
@@ -148,7 +147,6 @@ if (isset($postLike['operation'])) {
 			}
 
 			$_SESSION['currentData'] = $projects;
-
 			$groups = json_encode($_SESSION['currentData']);
 			echo $groups;
 

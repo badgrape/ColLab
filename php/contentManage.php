@@ -365,9 +365,8 @@ function getCoursesByTeacher($teacher) {
 function getAllCourses() {
 	GLOBAL $pdo;
 
-	$sql = "select distinct c.courseid, c.coursename, c.discipline, u.fname, u.lname
-		from courses c, registration r, users u
-		where c.courseid = r. course and c.teacher = u.userid";
+	$sql = "select distinct c.courseid, c.coursename, c.discipline,
+		u.fname, u.lname from courses c, users u where c.teacher = u.userid;";
 	$stmt = $pdo->prepare($sql);
 
 	$stmt->execute();

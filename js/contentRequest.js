@@ -103,22 +103,26 @@ function getProjects() {
 	});
 }
 
-function projectGroups(projectID) {
+// Returns project group members
+function projectGroups(assignId) {
 
-	var forStudent = projectID == undefined;
+	var forStudent = assignId === undefined;
 
 	var request = [];
 	
 
 	if (forStudent) {
 		request = $('#projectassign').serializeArray();	
+		console.log("for student");
 	}
 
 	else {
-		request[0] = { name: "assign", value: projectID };
+		request[0] = { name: "assign", value: assignId };
+		console.log("for teacher");
 	}
-	
+
 	request.push({ name: "operation", value: "getProjectGroups" });
+	console.log(request);
 
 	$.post("php/contentResponse.php", JSON.stringify(request),
 		function(data, status){
@@ -163,7 +167,6 @@ function addProject() {
 
 	$.post("php/contentResponse.php", JSON.stringify(request),
 		function(data, status){
-		$("#message").html(data);
 
 		getProjects();
 			
