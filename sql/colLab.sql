@@ -1,5 +1,5 @@
 CREATE DATABASE collab;
-GRANT ALL PRIVILEGES ON collab.* TO 'jim'@'localhost' IDENTIFIED BY 's3ns3nn0s3n' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON collab.* TO 'jim'@'localhost' IDENTIFIED BY '' WITH GRANT OPTION;
 USE collab;
 
 -- phpMyAdmin SQL Dump
